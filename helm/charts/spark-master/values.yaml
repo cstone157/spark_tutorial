@@ -1,0 +1,22 @@
+replicaCount: 1
+name: spark-master
+image:
+  repository: bitnamilegacy/spark
+  tag: "3.5.5-debian-12-r3"
+  pullPolicy: IfNotPresent
+service:
+  type: NodeIP
+  port: 7077
+  webPort: 8080
+resources: {}
+env: 
+  - name: SPARK_MODE
+    value: master
+  - name: SPARK_RPC_AUTHENTICATION_ENABLED
+    value: "false"
+  - name: SPARK_RPC_ENCRYPTION_ENABLED
+    value: "false"
+  - name: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+    value: "false"
+  - name: SPARK_SSL_ENABLED
+    value: "no"
