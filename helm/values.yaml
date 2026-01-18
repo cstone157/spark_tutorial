@@ -1,0 +1,23 @@
+replicaCount: 1
+
+image:
+  repository: apache/spark
+  tag: "3.5.8"
+  pullPolicy: IfNotPresent
+
+spark:
+  # mode: master | worker | none
+  mode: master
+  # masterUrl only used for worker mode (e.g. spark://spark-master:7077)
+  masterUrl: ""
+  # Optional override command (array). If set, it will be used instead of the builtin commands.
+  # Example: ["/bin/sh","-c","/opt/bitnami/spark/sbin/start-master.sh && tail -f /dev/null"]
+  command: []
+
+env: []
+
+resources: {}
+
+serviceAccount:
+  create: false
+  name: ""

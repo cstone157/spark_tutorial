@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-spark
+  labels:
+    app: {{ .Release.Name }}-spark
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-spark
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-spark
+    spec:
+      {{- if or .Values.serviceAccount.name .Values.serviceAccount.create }}
+      serviceAccountName: {{ if .Values.serviceAccount.name }}{{ .Values.serviceAccount.name }}{{ else }}{{ printf "%s-sa" .Release.Name }}{{ end }}
+      {{- end }}
+      containers:
+        - name: spark
+          image: {{ printf "%s:%s" (default "apache/spark" .Values.image.repository) (default "3.5.8" .Values.image.tag) | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+{{- if .Values.spark.command }}
+          command: {{ toJson .Values.spark.command }}
+{{- else if eq .Values.spark.mode "master" }}
+          command: ["/bin/sh","-c"]
+          args: ["exec /opt/bitnami/spark/bin/spark-class org.apache.spark.deploy.master.Master"]
+{{- else if eq .Values.spark.mode "worker" }}
+          command: ["/bin/sh","-c"]
+          args: ["exec /opt/bitnami/spark/bin/spark-class org.apache.spark.deploy.worker.Worker {{ .Values.spark.masterUrl }}"]
+{{- else }}
+          command: ["/bin/sh","-c"]
+          args: ["sleep 3600"]
+{{- end }}
+          env:
+{{- if .Values.env }}
+{{- range .Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
