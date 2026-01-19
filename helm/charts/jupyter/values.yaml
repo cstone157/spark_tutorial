@@ -1,0 +1,13 @@
+replicaCount: 1
+name: jupyter-notebook
+image:
+  repository: jupyter/pyspark-notebook
+  tag: "x86_64-lab-4.0.7"
+  pullPolicy: IfNotPresent
+port: 8081
+persistence:
+  enabled: true
+  size: 2Gi
+  storageClass: ""
+resources: {}
+createSecret: true

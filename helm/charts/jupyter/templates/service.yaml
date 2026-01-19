@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "jupyter" }}
+  namespace: {{ .Release.Name }}
+  labels:
+    app: {{ printf "jupyter" }}
+spec:
+  clusterIP: None
+  ports:
+    - port: {{ .Values.port }}
+      name: jupyter
+  selector:
+    app: {{ printf "jupyter" }}
