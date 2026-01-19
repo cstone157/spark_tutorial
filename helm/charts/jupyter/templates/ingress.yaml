@@ -1,0 +1,21 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ printf "jupyter" }}
+  namespace: {{ .Release.Name }}
+  labels:
+    app: {{ printf "jupyter" }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  rules:
+  - http:
+      paths:
+        - path: {{ .Values.ingress.path }}
+          pathType: {{ .Values.ingress.pathType | default "ImplementationSpecific" }}
+          backend:
+            service:
+              name: http
+              port: 
+                number: {{ .Values.port }}
+{{- end }}
