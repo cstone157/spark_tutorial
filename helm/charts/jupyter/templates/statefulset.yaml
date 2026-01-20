@@ -4,17 +4,17 @@ metadata:
   name: {{ .Values.name }}
   namespace: {{ .Release.Name }}
   labels:
-    app: {{ .Values.name }}
+    app: {{ printf "jupyter" }}
 spec:
   serviceName: {{ .Values.name }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app:  {{ printf "jupyter" }}
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app: {{ printf "jupyter" }}
     spec:
       containers:
         - name: {{ .Values.name }}
@@ -22,7 +22,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           env:
           - name: JUPYTER_PORT
-            value: 8117
+            value: "8081"
           ports:
             - containerPort: {{ .Values.port }}
               name: http
