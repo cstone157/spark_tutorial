@@ -3,4 +3,5 @@ serviceAccount:
   name: ""
 
 postgres:
+  enabled: false
   replicaCount: 1

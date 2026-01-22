@@ -1,0 +1,101 @@
+# # Source: home-lab/charts/jupyter/templates/jupyter.yaml
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: jupyter-local
+#   namespace: home-lab
+#   labels:
+#     generator: helm
+#     date: 2026-01-20
+#     app: jupyter
+#     version: "0.1a"
+#     category:   analysis # End of the mychart.labels template
+# spec:
+#   storageClassName: local-path
+#   capacity:
+#     storage: 5Gi
+#   accessModes: [ReadWriteOnce]
+#   persistentVolumeReclaimPolicy: Delete
+#   hostPath:  
+#     path: C:\k8\local-storage\jupyter
+# ---
+# # Source: home-lab/charts/jupyter/templates/jupyter.yaml
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: jupyter-local
+#   namespace: home-lab
+#   labels:
+#     generator: helm
+#     date: 2026-01-20
+#     app: jupyter-local
+#     version: "unknown"
+# spec:
+#   volumeName: jupyter-local
+#   accessModes: [ReadWriteOnce]
+#   storageClassName: local-path
+#   resources:
+#     requests:
+#       storage: 5Gi
+# ---
+# # Source: home-lab/charts/jupyter/templates/jupyter.yaml
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: jupyter
+#   namespace: home-lab
+#   labels:
+#     generator: helm
+#     date: 2026-01-20
+#     app: jupyter
+#     version: "0.1a"
+#     category:   analysis # End of the mychart.labels template
+# spec:
+#   type: NodePort
+#   selector:
+#     app: jupyter
+#   ports:
+#   - protocol: TCP
+#     nodePort: 30020
+#     port: 8888
+# ---
+# # Source: home-lab/charts/jupyter/templates/jupyter.yaml
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: jupyter
+#   namespace: home-lab
+#   labels:
+#     generator: helm
+#     date: 2026-01-20
+#     app: jupyter
+#     version: "0.1a"
+#     category:   analysis # End of the mychart.labels template
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: jupyter
+#   template:
+#     metadata:
+#       labels:
+#         app: jupyter
+#     spec:
+#       containers:
+#       - name: jupyter
+#         image: jupyter/minimal-notebook:notebook-7.0.6
+#         imagePullPolicy: IfNotPresent
+#         env:
+#           - name: "JUPYTER_PORT"
+#             value: "8888"
+#           - name: "RESTARTABLE"
+#             value: "yes"
+#         ports:
+#         - containerPort: 8888
+#         volumeMounts:
+#         - name: jupyter-local
+#           mountPath: /home/jovyan/work
+#       volumes:
+#       - name: jupyter-local
+#         persistentVolumeClaim:
+#           claimName: jupyter-local

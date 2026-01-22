@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-localhost
+  namespace: {{ .Release.Name }}
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: demo.localtest.me
+    http:
+      paths:
+      - backend:
+          service:
+            name: demo
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+

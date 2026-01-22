@@ -1,4 +1,5 @@
 replicaCount: 1
+enabled: false
 name: jupyter-notebook
 image:
   repository: jupyter/pyspark-notebook
