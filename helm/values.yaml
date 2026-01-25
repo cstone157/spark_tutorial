@@ -5,3 +5,9 @@ serviceAccount:
 postgres:
   enabled: false
   replicaCount: 1
+
+nginx:
+  enabled: false
+
+jupyter:
+  enabled: true

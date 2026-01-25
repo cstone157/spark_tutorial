@@ -7,15 +7,17 @@ metadata:
   labels:
     app: {{ printf "jupyter" }}
 spec:
+  ingressClassName: nginx
   rules:
-  - host: localhost
+  - host: demo.localtest.me
     http:
       paths:
-        - path: {{ .Values.ingress.path }}
-          pathType: Prefix
-          backend:
+        - backend:
             service:
               name: jupyter
               port: 
                 number: {{ .Values.port }}
+          path: {{ .Values.ingress.path }}
+          pathType: Prefix
+          
 {{- end }}
