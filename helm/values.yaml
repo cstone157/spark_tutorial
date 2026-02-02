@@ -11,3 +11,6 @@ nginx:
 
 jupyter:
   enabled: true
+
+hadoop:
+  enabled: false

@@ -1,0 +1,16 @@
+{{- if .Values.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ printf "hadoop" }}
+  namespace: {{ .Release.Name }}
+  labels:
+    app: {{ printf "hadoop" }}
+spec:
+  type: NodePort # ClusterIP
+  ports:
+    - port: {{ .Values.port }}
+      name: hadoop
+  selector:
+    app: {{ printf "hadoop" }}
+{{- end }}

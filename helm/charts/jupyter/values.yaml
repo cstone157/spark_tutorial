@@ -12,6 +12,21 @@ persistence:
   storageClass: ""
 resources: {}
 createSecret: true
+env:
+  - name: JUPYTER_ENABLE_LAB
+    value: "yes"
+  - name: GRANT_SUDO
+    value: "yes"
+  - name: JUPYTER_TOKEN
+    value: "sparkfun"
+  - name: SPARK_MASTER
+    value: "spark://spark-master:7077"
+  - name: SPARK_HOME
+    value: "/opt/spark"
+  - name: HADOOP_CONF_DIR
+    value: "/opt/hadoop/etc/hadoop"
+  - name: PYSPARK_PYTHON
+    value: "python3"
 
 ingress:
   enabled: true

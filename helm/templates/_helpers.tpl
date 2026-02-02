@@ -60,3 +60,42 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+
+{{/* Create a statefulset deployment */}}
+{{- define "spark-tutorial.statefulset" -}}
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Name }}
+  labels:
+    app: {{ .Values.name  }}
+spec:
+  serviceName: {{ .Values.name }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app:  {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ printf "%s:%s" .Values.image.repository .Values.image.tag | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          {{- if .Values.env }}
+          env:
+          {{- range .Values.env }}
+          - name: {{ .name }}
+            value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.port }}
+              name: http
+{{- end}}
+{{- end }}
