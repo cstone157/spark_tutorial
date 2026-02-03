@@ -5,7 +5,9 @@ image:
   repository: jupyter/pyspark-notebook
   tag: "x86_64-lab-4.0.7"
   pullPolicy: IfNotPresent
-port: 8081
+ports:
+  - port: 8081
+    name: http
 persistence:
   enabled: true
   size: 2Gi
