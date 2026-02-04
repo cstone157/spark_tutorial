@@ -16,7 +16,7 @@ spec:
             service:
               name: http
               port: 
-                number: 8081 
+                number: 30702 
           path: {{ .Values.ingress.path }}
           pathType: Prefix
           

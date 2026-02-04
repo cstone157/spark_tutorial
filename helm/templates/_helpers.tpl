@@ -94,8 +94,12 @@ spec:
             value: {{ .value | quote }}
           {{- end }}
           {{- end }}
+          {{- if .Values.ports }}
           ports:
-            - containerPort: {{ .Values.port }}
-              name: http
+          {{- range.Values.ports }}
+            - containerPort: {{ .port }}
+              name: {{ .name }}
+          {{- end }}
+          {{- end }}
 {{- end}}
 {{- end }}

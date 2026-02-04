@@ -7,7 +7,7 @@ metadata:
   labels:
     app: {{ .Values.name }}
 spec:
-  type: NodePort # ClusterIP
+  type: ClusterIP
   {{- if .Values.ports }}
   ports:
   {{- range .Values.ports }}
@@ -15,6 +15,9 @@ spec:
       name: {{ .name }}
       {{- if .targetPort }}
       targetPort: {{ .targetPort }}
+      {{- end }}
+      {{- if .nodePort }}
+      nodePort: {{ .nodePort }}
       {{- end }}
   {{- end }}
   {{- end }}
