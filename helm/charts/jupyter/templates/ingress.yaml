@@ -6,18 +6,22 @@ metadata:
   namespace: {{ .Release.Name }}
   labels:
     app: {{ printf "jupyter" }}
+  annotations:
+    # If using the default Traefik controller in K3s/Rancher Desktop, no class annotation is strictly needed, 
+    # but you can specify it for clarity.
+    kubernetes.io/ingress.class: traefik 
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik # {{ .Values.ingress.className }}
   rules:
-  - host: demo.localtest.me
+  - host: {{ .Values.ingress.host }}
     http:
       paths:
         - backend:
             service:
-              name: http
+              name: {{ .Values.ingress.name }}
               port: 
-                number: 30702 
+                number: {{ .Values.ingress.port }}
           path: {{ .Values.ingress.path }}
-          pathType: Prefix
+          pathType: {{ .Values.ingress.pathType }}
           
 {{- end }}

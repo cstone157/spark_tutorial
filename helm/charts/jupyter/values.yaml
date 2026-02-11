@@ -36,9 +36,11 @@ env:
 ingress:
   enabled: true
   # ingress class name (optional)
-  className: ""
-  host: jupyter.local
+  className: nginx
+  host: jupyter.localhost
   path: /
   pathType: ImplementationSpecific
+  port: 8081
+  name: http
   annotations: {}
   tls: []
