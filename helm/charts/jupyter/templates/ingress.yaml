@@ -18,7 +18,7 @@ spec:
       paths:
         - backend:
             service:
-              name: {{ .Values.ingress.name }}
+              name: {{ .Values.name }}
               port: 
                 number: {{ .Values.ingress.port }}
           path: {{ .Values.ingress.path }}

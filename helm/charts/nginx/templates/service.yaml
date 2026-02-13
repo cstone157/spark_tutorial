@@ -2,16 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  labels:
-    app: demo
-  name: demo
+  name: demo-service
   namespace: {{ .Release.Name }}
 spec:
-  type: ClusterIP
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
   selector:
     app: demo
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
 {{- end }}

@@ -37,7 +37,7 @@ ingress:
   enabled: true
   # ingress class name (optional)
   className: nginx
-  host: jupyter.localhost
+  host: localhost.jupyter
   path: /
   pathType: ImplementationSpecific
   port: 8081
