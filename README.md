@@ -45,3 +45,11 @@ If TLS is enabled for the Ingress, a Secret containing the certificate and key m
     tls.key: <base64 encoded key>
   type: kubernetes.io/tls
 
+
+cd ~/source/spark_tutorial
+
+helm install spark-tutorial ./helm/
+helm delete spark-tutorial
+
+kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:80
+
